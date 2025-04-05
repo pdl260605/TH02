@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trò chơi đố vui</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+            background-color: #f4f4f9;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #quiz {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        button {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #ddd;
+        }
+
+        #restart {
+            display: none;
+            background-color: #28a745;
+            color: white;
+            margin-top: 20px;
+        }
+
+        #restart:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Trò chơi đố vui</h1>
+    <div id="quiz"></div>
+    <button id="restart" onclick="restartGame()">Chơi lại</button>
+
+    <script>
+        const questions = [
+            {
+                question: "Thủ đô của Việt Nam là gì?",
+                options: ["Hà Nội", "Hồ Chí Minh", "Đà Nẵng", "Huế"],
+                answer: 0,
+                hint: "Thành phố này có Hồ Gươm nổi tiếng."
+            },
+            {
+                question: "2 + 2 bằng bao nhiêu?",
+                options: ["3", "4", "5", "6"],
+                answer: 1,
+                hint: "Là số chẵn nhỏ nhất lớn hơn 3."
+            },
+            {
+                question: "Con vật nào có thể bay?",
+                options: ["Chó", "Mèo", "Chim", "Cá"],
+                answer: 2,
+                hint: "Loài vật có cánh."
+            }
+        ];
+
+        let currentQuestion = 0;
+
+        function loadQuestion() {
+            const quizContainer = document.getElementById("quiz");
+            quizContainer.innerHTML = "";
+
+            const questionTitle = document.createElement("h2");
+            questionTitle.innerText = questions[currentQuestion].question;
+            quizContainer.appendChild(questionTitle);
+
+            questions[currentQuestion].options.forEach((option, index) => {
+                const button = document.createElement("button");
+                button.innerText = option;
+                button.onclick = () => checkAnswer(index);
+                quizContainer.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedIndex) {
+            if (selectedIndex === questions[currentQuestion].answer) {
+                alert("Chính xác! Bạn đã trả lời đúng.");
+                currentQuestion++;
+                if (currentQuestion < questions.length) {
+                    loadQuestion();
+                } else {
+                    alert("Chúc mừng! Bạn đã hoàn thành trò chơi.");
+                    document.getElementById("restart").style.display = "block";
+                }
+            } else {
+                alert("Sai rồi! Gợi ý: " + questions[currentQuestion].hint);
+            }
+        }
+
+        function restartGame() {
+            currentQuestion = 0;
+            document.getElementById("restart").style.display = "none";
+            loadQuestion();
+        }
+
+        document.addEventListener("DOMContentLoaded", loadQuestion);
+    </script>
+</body>
+
+</html>
